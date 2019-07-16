@@ -1,0 +1,30 @@
+---
+
+- hosts: all
+  become: True
+  tasks:
+    - name: Install apache server
+      yum:
+        name: httpd
+        state: present
+    - name: Start and enable apache
+      service:
+        name: httpd
+        state: started
+        enabled: True
+    - name: Deploy web application
+      copy:
+        src: ~/index.html
+        dest: /var/www/html/
+    - name: configer_port_no
+      copy: 
+        src: ~/httpd.conf
+        dest: /etc/httpd/conf/
+      notify: 
+        - Restart_Apache
+  handlers:          
+    - name: Restart_Apache
+      service: 
+        name: httpd
+        state: restarted
+

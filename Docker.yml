@@ -1,0 +1,18 @@
+---
+- hosts: all
+  become: true
+  tasks: 
+    - name: Docker_Instalion
+      yum: 
+        name: docker
+        state: present
+    - name: Docker_start & Enable
+      service: 
+        name: docker
+        state: started
+        enabled: true
+    - name: Restared cmd
+      service:
+        name: docker
+        state: restarted
+
